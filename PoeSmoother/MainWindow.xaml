@@ -114,18 +114,22 @@
                                         Background="#2D2D30"
                                         Margin="0,1"
                                         CornerRadius="2">
-                                    <StackPanel>
-                                        <CheckBox Content="{Binding Name}" 
-                                                  IsChecked="{Binding IsSelected}"
-                                                  FontWeight="SemiBold"
-                                                  FontSize="12"
-                                                  Foreground="#E0E0E0"/>
-                                        <TextBlock Text="{Binding Description}" 
-                                                   Margin="22,1,0,3"
-                                                   Foreground="#B0B0B0"
-                                                   TextWrapping="Wrap"
-                                                   FontSize="10"/>
-                                    </StackPanel>
+                                    <CheckBox IsChecked="{Binding IsSelected}"
+                                              FontWeight="SemiBold"
+                                              FontSize="12"
+                                              Foreground="#E0E0E0">
+                                        <StackPanel>
+                                            <TextBlock Text="{Binding Name}" 
+                                                       FontWeight="SemiBold"
+                                                       FontSize="12"
+                                                       Foreground="#E0E0E0"/>
+                                            <TextBlock Text="{Binding Description}" 
+                                                       Margin="0,1,0,0"
+                                                       Foreground="#B0B0B0"
+                                                       TextWrapping="Wrap"
+                                                       FontSize="10"/>
+                                        </StackPanel>
+                                    </CheckBox>
                                 </Border>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
