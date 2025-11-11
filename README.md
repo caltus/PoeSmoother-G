@@ -34,9 +34,8 @@
 ## Installation
 
 1. Go to the [Releases page](https://github.com/Gineticus/PoeSmoother/releases)
-2. Download the latest `PoeSmoother-win-x64.zip`
-3. Extract the archive to a folder of your choice
-4. Run `PoeSmoother.exe`
+2. Download the latest `PoeSmoother-win-x64.exe`
+3. Run the executable
 
 **Note:** The application is self-contained and includes all required dependencies.
 

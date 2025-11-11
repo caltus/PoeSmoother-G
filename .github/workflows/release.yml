@@ -42,13 +42,7 @@ jobs:
           
           ### Installation
           1. Download `PoeSmoother-${{ github.ref_name }}-win-x64.exe`
-          2. Run the executable (no extraction needed)
-          
-          ### Features
-          - Dark themed UI
-          - True progress bar
-          - Apply patches individually or all at once
-          - Supports both GGPK and index.bin files
+          2. Run the executable
           
           ### System Requirements
           - Windows 10 version 2004 or later
