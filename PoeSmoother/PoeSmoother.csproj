@@ -10,6 +10,12 @@
     <ApplicationIcon>..\icon.ico</ApplicationIcon>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <DebugType>none</DebugType>
+    <DebugSymbols>false</DebugSymbols>
+    <!-- <EnableCompressionInSingleFile>true</EnableCompressionInSingleFile> -->
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="LibGGPK3.LibBundledGGPK3" Version="2.6.10" />
   </ItemGroup>

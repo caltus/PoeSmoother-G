@@ -195,7 +195,7 @@ public partial class MainWindow : Window
         }
     }
 
-    private async void PatchIndex(LibBundle3.Index index, List<PatchViewModel> patches)
+    private void PatchIndex(LibBundle3.Index index, List<PatchViewModel> patches)
     {
         var fileTree = index.BuildTree();
 
