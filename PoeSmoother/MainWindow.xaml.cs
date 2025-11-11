@@ -9,6 +9,7 @@ using LibBundle3;
 using LibBundledGGPK3;
 using Microsoft.Win32;
 using PoeSmoother.Patches;
+using PoeSmoother.Models;
 
 namespace PoeSmoother;
 
@@ -155,26 +156,22 @@ public partial class MainWindow : Window
         {
             await Task.Run(() =>
             {
-                using var index = GetGGPKIndex(_ggpkPath);
-                var fileTree = index.BuildTree();
-
-                for (int i = 0; i < patchesToApply.Count; i++)
+                if (_ggpkPath.EndsWith(".bin", StringComparison.OrdinalIgnoreCase))
                 {
-                    var patch = patchesToApply[i];
-
-                    Dispatcher.Invoke(() =>
-                    {
-                        StatusTextBlock.Text = $"Applying {patch.Name} ({i + 1}/{patchesToApply.Count})...";
-                        ProgressBar.Value = i;
-                    });
-
-                    patch.Patch.Apply(fileTree);
-                    index.Save();
-
-                    Dispatcher.Invoke(() =>
-                    {
-                        ProgressBar.Value = i + 1;
-                    });
+                    var index = new LibBundle3.Index(_ggpkPath);
+                    PatchIndex(index, patchesToApply);
+                    index.Dispose();
+                }
+                else if (_ggpkPath.EndsWith(".ggpk", StringComparison.OrdinalIgnoreCase))
+                {
+                    BundledGGPK ggpk = new(_ggpkPath);
+                    var index = ggpk.Index;
+                    PatchIndex(index, patchesToApply);
+                    ggpk.Dispose();
+                }
+                else
+                {
+                    throw new InvalidDataException("The selected file is neither a GGPK nor an index BIN file.");
                 }
             });
 
@@ -198,18 +195,28 @@ public partial class MainWindow : Window
         }
     }
 
-    private static LibBundle3.Index GetGGPKIndex(string ggpkPath)
+    private async void PatchIndex(LibBundle3.Index index, List<PatchViewModel> patches)
     {
-        if (ggpkPath.EndsWith(".bin", StringComparison.OrdinalIgnoreCase))
+        var fileTree = index.BuildTree();
+
+        for (int i = 0; i < patches.Count; i++)
         {
-            return new LibBundle3.Index(ggpkPath);
+            var patch = patches[i];
+
+            Dispatcher.Invoke(() =>
+            {
+                StatusTextBlock.Text = $"Applying {patch.Name} ({i + 1}/{patches.Count})...";
+                ProgressBar.Value = i;
+            });
+
+            patch.Patch.Apply(fileTree);
+            index.Save();
+
+            Dispatcher.Invoke(() =>
+            {
+                ProgressBar.Value = i + 1;
+            });
         }
-        else if (ggpkPath.EndsWith(".ggpk", StringComparison.OrdinalIgnoreCase))
-        {
-            BundledGGPK ggpk = new(ggpkPath);
-            return ggpk.Index;
-        }
-        throw new InvalidDataException("The selected file is neither a GGPK nor an index BIN file.");
     }
 
     private void UpdateStatus()
@@ -222,40 +229,5 @@ public partial class MainWindow : Window
         {
             StatusTextBlock.Text = $"Ready - {Path.GetFileName(_ggpkPath)}";
         }
-    }
-}
-
-public class PatchViewModel : INotifyPropertyChanged
-{
-    private bool _isSelected;
-
-    public IPatch Patch { get; }
-    public string Name => Patch.Name;
-    public string Description => Patch.Description?.ToString() ?? string.Empty;
-
-    public bool IsSelected
-    {
-        get => _isSelected;
-        set
-        {
-            if (_isSelected != value)
-            {
-                _isSelected = value;
-                OnPropertyChanged();
-            }
-        }
-    }
-
-    public PatchViewModel(IPatch patch)
-    {
-        Patch = patch;
-        _isSelected = false;
-    }
-
-    public event PropertyChangedEventHandler? PropertyChanged;
-
-    protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
-    {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }
