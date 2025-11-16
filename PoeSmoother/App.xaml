@@ -236,7 +236,7 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Thumb}">
-                        <Border Background="{StaticResource SliderThumb}" CornerRadius="3"/>
+                        <Border Background="{StaticResource SliderTrack}" CornerRadius="3"/>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
