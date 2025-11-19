@@ -24,16 +24,16 @@ public class Minimap : IPatch
                         var record = file1.Record;
                         var bytes = record.Read();
                         string data = System.Text.Encoding.ASCII.GetString(bytes.ToArray());
-                        List<string> lines = data.Split("\r\n").ToList();
 
-                        if (lines.Exists(line => line.Contains("res_color = max(res_color, 0.18f);")))
+                        if (data.Contains("res_color = max(res_color, 0.18f);"))
                         {
                             continue;
                         }
 
+                        List<string> lines = data.Split("\r\n").ToList();
                         int index = lines.FindIndex(line => line.Contains("res_color = float4(1.0f, 0.0f, 0.0f, 1.0f);"));
                         if (index == -1) continue;
-                        lines.Insert(index + 1, $"\t\tres_color = max(res_color, 0.18f);");
+                        lines.Insert(index + 1, $"\tres_color = max(res_color, 0.18f);");
 
                         string newData = string.Join("\r\n", lines);
                         var newBytes = System.Text.Encoding.ASCII.GetBytes(newData);
