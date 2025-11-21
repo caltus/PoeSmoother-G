@@ -5,7 +5,7 @@
         Height="400"
         Width="500"
         WindowStartupLocation="CenterOwner"
-        ResizeMode="NoResize"
+        ResizeMode="CanResize"
         WindowStyle="SingleBorderWindow"
         Background="{StaticResource DarkBackground}">
     <Grid Margin="15">

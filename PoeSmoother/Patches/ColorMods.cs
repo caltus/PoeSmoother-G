@@ -14,6 +14,7 @@ public class ColorMods : IPatch
     public object Description => "Changes colors of mods in the game.";
     public List<ColorModsOption> ColorModsOptions { get; set; } = new()
     {
+        // maps and more
         new ColorModsOption("map_monsters_reflect_%_physical_damage", "yellow", true),
         new ColorModsOption("map_monsters_reflect_%_elemental_damage", "green", true),
         new ColorModsOption("map_player_cannot_expose", "red", true),
@@ -25,8 +26,50 @@ public class ColorMods : IPatch
         new ColorModsOption("map_additional_player_maximum_resistances_%", "red", true),
         new ColorModsOption("map_monsters_are_hexproof", "red", true),
         new ColorModsOption("map_player_cooldown_speed_+%_final", "red", true),
+        new ColorModsOption("map_player_life_and_es_recovery_speed_+%_final", "red", true),
+        new ColorModsOption("map_ground_orion_meteor", "red", true),
+        new ColorModsOption("map_player_create_enemy_meteor_daemon_on_flask_use_%_chance", "red", true),
+        new ColorModsOption("map_uber_drowning_orb_ambush", "red", true),
+        new ColorModsOption("map_petrificiation_statue_ambush", "red", true),
+        new ColorModsOption("map_exarch_traps", "red", true),
+        new ColorModsOption("map_packs_have_uber_tentacle_fiends", "red", true),
+        new ColorModsOption("map_uber_map_additional_synthesis_boss", "red", true),
+        new ColorModsOption("map_monster_add_x_grasping_vines_on_hit", "red", true),
+        new ColorModsOption("map_uber_map_player_damage_cycle", "red", true),
+        new ColorModsOption("map_player_death_mark_on_rare_unique_kill_ms", "red", true),
+        new ColorModsOption("map_uber_sawblades_ambush", "red", true),
+        new ColorModsOption("map_rare_monster_volatile_on_death_%", "red", true),
+        new ColorModsOption("map_rare_monsters_shaper_touched", "red", true),
+        new ColorModsOption("map_supporter_maven_follower", "red", true),
+        new ColorModsOption("map_player_global_defences_+%", "red", true),
+        // strongboxes
+        new ColorModsOption("chest_display_explodes_corpses", "red", true),
+        new ColorModsOption("chest_display_explosion", "red", true),
+        new ColorModsOption("chest_display_freeze", "red", true),
+        new ColorModsOption("chest_display_ice_nova", "red", true),
+        new ColorModsOption("chest_spawn_rogue_exiles", "red", true),
+        // expedition
+        new ColorModsOption("all_damage_can_freeze", "red", true),
+        new ColorModsOption("apply_petrification_for_X_seconds_on_hit", "red", true),
+        new ColorModsOption("base_cold_immunity", "red", true),
+        new ColorModsOption("base_fire_immunity", "red", true),
+        new ColorModsOption("base_lightning_immunity", "red", true),
+        new ColorModsOption("chaos_immunity", "red", true),
+        new ColorModsOption("physical_immunity", "red", true),
+        new ColorModsOption("cannot_have_life_leeched_from", "red", true),
+        new ColorModsOption("cannot_have_mana_leeched_from", "red", true),
+        // altars
+        new ColorModsOption("life_mana_es_recovery_rate_+%_per_endurance_charge", "red", true),
+        new ColorModsOption("global_defences_+%_per_frenzy_charge", "red", true),
+        new ColorModsOption("critical_strike_multiplier_+_per_power_charge", "red", true),
+        new ColorModsOption("random_projectile_direction", "red", true),
+        new ColorModsOption("chaos_damage_per_minute_while_affected_by_flask", "red", true),
+        new ColorModsOption("create_enemy_meteor_daemon_on_flask_use_%_chance", "red", true),
+        new ColorModsOption("drain_x_flask_charges_over_time_on_hit_for_6_seconds", "red", true),
+        // altars
         new ColorModsOption("map_item_drop_quantity_+%", "pink", true),
         new ColorModsOption("map_item_drop_rarity_+%", "pink", true),
+        // altars
         new ColorModsOption("chance_%_to_drop_additional_divine_orb", "yellow", true),
         new ColorModsOption("map_boss_additional_divine_orb_to_drop", "yellow", true),
         new ColorModsOption("%_chance_to_duplicate_dropped_currency", "blue", true),
