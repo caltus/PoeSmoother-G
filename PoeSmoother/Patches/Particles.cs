@@ -26,7 +26,7 @@ public class Particles : IPatch
                 if (Array.Exists(extensions, ext => file.Name.EndsWith(ext, StringComparison.OrdinalIgnoreCase)))
                 {
                     var record = file.Record;
-                    var newBytes = System.Text.Encoding.Unicode.GetBytes("0\r\n");
+                    var newBytes = System.Text.Encoding.Unicode.GetBytes("0");
                     if (!newBytes.AsSpan().StartsWith(System.Text.Encoding.Unicode.GetPreamble()))
                     {
                         newBytes = System.Text.Encoding.Unicode.GetPreamble().Concat(newBytes).ToArray();
