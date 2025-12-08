@@ -17,6 +17,8 @@ public class Effects : IPatch
         "DecalEvents",
         "ScreenShake",
         "Lights",
+        // "WindEvents",
+        // "SoundEvents",
     };
 
     private string RemoveFunctionBlock(string data, string functionName)
