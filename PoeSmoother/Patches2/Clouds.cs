@@ -28,8 +28,8 @@ public class Clouds : IPatch
                     var bytes = record.Read();
                     string data = System.Text.Encoding.Unicode.GetString(bytes.ToArray());
 
-                    string pattern = @"(""clouds_intensity"":\s*)[^,]+,";
-                    string replacement = "${1}0.0,";
+                    string pattern = @"(""clouds_intensity"":\s*)([^,\r\n}]+)(,?)";
+                    string replacement = "${1}0.0${3}";
                     data = System.Text.RegularExpressions.Regex.Replace(data, pattern, replacement);
                     
                     var newBytes = System.Text.Encoding.Unicode.GetBytes(data);

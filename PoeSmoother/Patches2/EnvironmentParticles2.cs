@@ -34,12 +34,12 @@ public class EnvironmentParticles2 : IPatch
                         .Replace("\"effect_spawner\"", "\"xffect_spawner\"")
                         .Replace("\"post_processing\"", "\"xost_processing\"");
 
-                    string pattern = @"(""clouds_intensity"":\s*)[^,]+,";
-                    string replacement = "${1}0.0,";
+                    string pattern = @"(""clouds_intensity"":\s*)([^,\r\n}]+)(,?)";
+                    string replacement = "${1}0.0${3}";
                     data = System.Text.RegularExpressions.Regex.Replace(data, pattern, replacement);
 
-                    string pattern2 = @"(""rain_intensity"":\s*)[^,]+,";
-                    string replacement2 = "${1}0.0,";
+                    string pattern2 = @"(""rain_intensity"":\s*)([^,\r\n}]+)(,?)";
+                    string replacement2 = "${1}0.0${3}";
                     data = System.Text.RegularExpressions.Regex.Replace(data, pattern2, replacement2);
 
                     var newBytes = System.Text.Encoding.Unicode.GetBytes(data);
