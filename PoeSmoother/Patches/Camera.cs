@@ -23,6 +23,73 @@ public class Camera : IPatch
         "SetCustomCameraSpeed",
         "RemoveCustomCameraSpeed",
     };
+    
+    private string RemoveCameraFunctions(string data)
+    {
+        foreach (var func in _functions)
+        {
+            int pos = 0;
+            while ((pos = data.IndexOf(func, pos, StringComparison.Ordinal)) != -1)
+            {
+                // Check if this is actually a function call (optionally preceded by identifier.)
+                int start = pos;
+                
+                // Look backwards for optional prefix (like "camera_controller.")
+                while (start > 0 && (char.IsLetterOrDigit(data[start - 1]) || data[start - 1] == '_' || data[start - 1] == '.'))
+                {
+                    start--;
+                }
+                
+                // Skip whitespace after function name
+                int parenPos = pos + func.Length;
+                while (parenPos < data.Length && char.IsWhiteSpace(data[parenPos]))
+                {
+                    parenPos++;
+                }
+                
+                // Check if followed by opening parenthesis
+                if (parenPos >= data.Length || data[parenPos] != '(')
+                {
+                    pos++;
+                    continue;
+                }
+                
+                // Find matching closing parenthesis
+                int depth = 1;
+                int endPos = parenPos + 1;
+                while (endPos < data.Length && depth > 0)
+                {
+                    if (data[endPos] == '(') depth++;
+                    else if (data[endPos] == ')') depth--;
+                    endPos++;
+                }
+                
+                if (depth != 0)
+                {
+                    pos++;
+                    continue; // Unmatched parentheses
+                }
+                
+                // Skip whitespace and check for semicolon
+                while (endPos < data.Length && char.IsWhiteSpace(data[endPos]))
+                {
+                    endPos++;
+                }
+                
+                if (endPos < data.Length && data[endPos] == ';')
+                {
+                    endPos++; // Include the semicolon
+                    data = data.Remove(start, endPos - start); // Remove the entire function call
+                    pos = start; // Continue from where we removed
+                }
+                else
+                {
+                    pos++;
+                }
+            }
+        }
+        return data;
+    }
 
     private void RecursivePatcher(DirectoryNode dir)
     {
@@ -51,8 +118,7 @@ public class Camera : IPatch
                         continue;
                     }
 
-                    string pattern = @"(?:[\w_]+\.)?(?:" + string.Join("|", _functions.Select(System.Text.RegularExpressions.Regex.Escape)) + @")\s*\([^)]*\)\s*;";
-                    data = System.Text.RegularExpressions.Regex.Replace(data, pattern, "");
+                    data = RemoveCameraFunctions(data);
                     
                     var newBytes = System.Text.Encoding.Unicode.GetBytes(data);
                     record.Write(newBytes);
