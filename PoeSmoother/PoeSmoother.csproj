@@ -8,6 +8,7 @@
     <RootNamespace>PoeSmoother</RootNamespace>
     <UseWPF>true</UseWPF>
     <ApplicationIcon>..\icon.ico</ApplicationIcon>
+    <Version>1.0.29</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)' == 'Release'">

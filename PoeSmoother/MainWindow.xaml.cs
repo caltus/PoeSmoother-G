@@ -2,7 +2,9 @@ using LibBundledGGPK3;
 using Microsoft.Win32;
 using PoeSmoother.Models;
 using PoeSmoother.Patches;
+using PoeSmoother.Services;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows;
@@ -16,6 +18,7 @@ public partial class MainWindow : Window
     private readonly ObservableCollection<ColorModsViewModel> _colorMods;
     private string _ggpkPath = string.Empty;
     private double _cameraZoom = 2.4;
+    private string? _updateDownloadUrl;
 
     public MainWindow()
     {
@@ -27,6 +30,7 @@ public partial class MainWindow : Window
         UpdateStatus();
 
         SourceInitialized += (s, e) => ApplyDarkTitleBar();
+        Loaded += async (s, e) => await CheckForUpdatesAsync();
     }
 
     private void ApplyDarkTitleBar()
@@ -306,6 +310,47 @@ public partial class MainWindow : Window
         else
         {
             StatusTextBlock.Text = $"Ready - {Path.GetFileName(_ggpkPath)}";
+        }
+    }
+
+    private async Task CheckForUpdatesAsync()
+    {
+        const string githubOwner = "Gineticus";
+        const string githubRepo = "PoeSmoother";
+
+        try
+        {
+            var updateInfo = await GitHubUpdateChecker.CheckForUpdatesAsync(githubOwner, githubRepo);
+
+            if (updateInfo?.IsUpdateAvailable == true)
+            {
+                _updateDownloadUrl = updateInfo.DownloadUrl;
+                UpdateNotificationButton.Content = $"Update available: {updateInfo.LatestVersion}";
+                UpdateNotificationButton.Visibility = Visibility.Visible;
+            }
+        }
+        catch
+        {
+            // Silently ignore update check failures
+        }
+    }
+
+    private void UpdateNotificationButton_Click(object sender, RoutedEventArgs e)
+    {
+        if (!string.IsNullOrEmpty(_updateDownloadUrl))
+        {
+            try
+            {
+                Process.Start(new ProcessStartInfo
+                {
+                    FileName = _updateDownloadUrl,
+                    UseShellExecute = true
+                });
+            }
+            catch
+            {
+                MessageBox.Show("Could not open the download page. Please visit the GitHub releases page manually.", "Error");
+            }
         }
     }
 }
